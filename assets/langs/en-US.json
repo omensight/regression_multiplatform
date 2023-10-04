@@ -1,0 +1,15 @@
+{
+    "appName":"Regression",
+    "titleCreateANewRegression":"Create a new regression",
+    "add":"Add",
+    "labelRegressionName":"Regression name",
+    "labelIndependentVariable":"Independent variable label (X by default)",
+    "labelDependentVariable":"Dependent variable label (Y by default)",
+    "regressionTypes":{
+        "linear":"Linear",
+        "power":"Power"
+    },
+    "indicatorBasicInformation":"Basic information:",
+    "indicatorVariables":"Variables:",
+    "errorRequiredField":"This field is required"
+}
