@@ -15,9 +15,7 @@ part 'database_providers.g.dart';
 
 @Riverpod(keepAlive: true)
 Future<QueryExecutor> queryExecutor(QueryExecutorRef ref) async {
-  final documentsDirectory = Platform.isWindows
-      ? await getApplicationDocumentsDirectory()
-      : await getLibraryDirectory();
+  final documentsDirectory = await getApplicationDocumentsDirectory();
   final databasePath = join(documentsDirectory.path, 'regression.sqlite');
   return NativeDatabase(File(databasePath));
 }

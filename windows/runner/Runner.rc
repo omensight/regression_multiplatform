@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.phemeftheria" "\0"
-            VALUE "FileDescription", "regression" "\0"
+            VALUE "FileDescription", "regressions" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "regression" "\0"
+            VALUE "InternalName", "regressions" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.phemeftheria. All rights reserved." "\0"
-            VALUE "OriginalFilename", "regression.exe" "\0"
-            VALUE "ProductName", "regression" "\0"
+            VALUE "OriginalFilename", "regressions.exe" "\0"
+            VALUE "ProductName", "regressions" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

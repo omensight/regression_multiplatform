@@ -1,4 +1,4 @@
-package com.phemeftheria.regression
+package com.phemeftheria.regressions
 
 import io.flutter.embedding.android.FlutterActivity
 
