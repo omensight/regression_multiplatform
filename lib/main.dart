@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:regression/features/add_new_regression/presentation/screens/add_regression_form_screen.dart';
+import 'package:regression/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,11 +21,12 @@ class RegressionApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       localizationsDelegates: context.localizationDelegates,
       locale: context.locale,
-      home: const AddRegressionFormScreen(),
-      theme: ThemeData(useMaterial3: true),
+      routerConfig: regressionGoRouter,
+      theme: ThemeData(
+          useMaterial3: true, scaffoldBackgroundColor: const Color(0xFFf7f7f7)),
     );
   }
 }

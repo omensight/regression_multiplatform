@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:regression/core/data/entities/regression.dart';
 import 'package:regression/core/presentation/providers/database_providers.dart';
+import 'package:regression/core/presentation/providers/repository_providers.dart';
 import 'package:regression/features/add_new_regression/domain/usecases/add_regression_usecase.dart';
 import 'package:regression/features/add_new_regression/domain/usecases/add_regression_variable_usecase.dart';
+import 'package:regression/features/regressions_list/domain/usecases/delete_single_regression_usecase.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'regression_controller.g.dart';
 
@@ -11,15 +13,28 @@ AddRegressionUsecase addRegressionUsecase(
   AddRegressionUsecaseRef ref,
 ) =>
     AddRegressionUsecase(
-        regressionDataSource: ref.watch(regressionDataSourceProvider));
+        regressionRepository: ref.watch(regressionRepositoryProvider));
+
+@riverpod
+Regression? selectedEditingRegression(
+    SelectedEditingRegressionRef ref, String? regressionId) {
+  return null;
+}
+
+@riverpod
+DeleteSingleRegressionUsecase deleteSingleRegressionUsecase(
+    DeleteSingleRegressionUsecaseRef ref) {
+  return DeleteSingleRegressionUsecase(
+      regressionDataSource: ref.watch(regressionRepositoryProvider));
+}
 
 @riverpod
 AddRegressionVariableUsecase addRegressionVariableUsecase(
     AddRegressionVariableUsecaseRef ref) {
   return AddRegressionVariableUsecase(
-    dataVariableDataSource: ref.watch(dataVariableDataSourceProvider),
-    regressionDependentVariableDataSource:
-        ref.watch(regressionDependentVariableDataSourceProvider),
+    dataVariableRepository: ref.watch(dataVariableRepositoryProvider),
+    regressionDependentVariableRepository:
+        ref.watch(regressionDependentVariableRepositoryProvider),
     regressionVariableDataSource:
         ref.watch(regressionVariableDataSourceProvider),
   );
@@ -106,5 +121,9 @@ class RegressionController extends _$RegressionController {
         },
       );
     }
+  }
+
+  Future<void> deleteRegression(String id) async {
+    await ref.read(deleteSingleRegressionUsecaseProvider)(id: id);
   }
 }

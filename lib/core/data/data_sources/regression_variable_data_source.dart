@@ -14,4 +14,10 @@ class RegressionVariableDataSource extends DatabaseAccessor<RegressionDatabase>
     return into(regressionVariables)
         .insertReturning(regressionVariable.toInsertable());
   }
+
+  Future<List<RegressionVariable>> findAllByRegressionId(String regressionId) {
+    return (select(regressionVariables)
+          ..where((tbl) => tbl.fkRegressionId.equals(regressionId)))
+        .get();
+  }
 }

@@ -1,5 +1,5 @@
 {
-    "appName":"Regression",
+    "appName":"Regressions",
     "titleCreateANewRegression":"Create a new regression",
     "add":"Add",
     "labelRegressionName":"Regression name",
@@ -11,5 +11,24 @@
     },
     "indicatorBasicInformation":"Basic information:",
     "indicatorVariables":"Variables:",
-    "errorRequiredField":"This field is required"
+    "errorRequiredField":"This field is required",
+    "cancel":"Cancel",
+    "delete":"Delete",
+    "duplicate":"Duplicate",
+    "duplicateRegression":"Duplicate regression",
+    "regressionDuplicateName":"Name of the duplicate",
+    "crudFailures":{
+        "duplicateId":"There is already an entity with this ID",
+        "duplicatedName":"There is already an entity with the name \"{}\"",
+        "read":"Cannot get the entity with the identifier \"{}\" at this moment",
+        "update":"Cannot update this element at this moment",
+        "delete":"Cannot delete this element at this moment"
+    },
+    "unspecifiedFailure":"Failure not specified",
+    "dialogDeleteRegressionConfirmation":{
+        "title":"Delete regression?",
+        "body":"Are you sure you want to delete the regression \"{}\"?"
+    }
+    
+        
 }

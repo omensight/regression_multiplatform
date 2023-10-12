@@ -1,12 +1,12 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:regression/core/data/data_sources/regression_data_source.dart';
 import 'package:regression/core/data/entities/regression.dart';
+import 'package:regression/core/data/repositories/regression_repository.dart';
 import 'package:regression/core/domain/failures/crud_failures.dart';
 
 class AddRegressionUsecase {
-  final RegressionDataSource regressionDataSource;
+  final RegressionRepository regressionRepository;
 
-  AddRegressionUsecase({required this.regressionDataSource});
+  AddRegressionUsecase({required this.regressionRepository});
 
   Future<Either<CrudFailure, Regression>> call(
     String name,
@@ -14,15 +14,13 @@ class AddRegressionUsecase {
   ) async {
     Either<CrudFailure, Regression> result;
     Regression? existingRegression =
-        await regressionDataSource.findByName(name);
+        await regressionRepository.findByName(name);
     if (existingRegression == null) {
       try {
-        final insertedRegression = await regressionDataSource.insert(
-          Regression(
-            name: name,
-            creationDateTime: DateTime.now(),
-            regressionType: regressionType,
-          ),
+        final insertedRegression = await regressionRepository.insert(
+          name,
+          DateTime.now(),
+          regressionType,
         );
         result = Right(insertedRegression);
       } catch (e) {

@@ -9,6 +9,7 @@ import 'package:regression/core/data/data_sources/regression_variable_data_sourc
 import 'package:regression/core/data/database/regression_database.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+import 'package:regression/core/presentation/failure_converters.dart';
 import 'package:regression/core/presentation/field_validators/field_validators.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'database_providers.g.dart';
@@ -56,3 +57,17 @@ RegressionVariableDataSource regressionVariableDataSource(
 
 @riverpod
 FieldValidator fieldValidator(FieldValidatorRef ref) => FieldValidator();
+
+@riverpod
+CrudFailureConverter crudFailureConverter(CrudFailureConverterRef ref) {
+  return CrudFailureConverter();
+}
+
+@Riverpod(keepAlive: true)
+RegressionFailureConverter regressionFailureConverter(
+    RegressionFailureConverterRef ref) {
+  final crudFailureConverter = ref.read(crudFailureConverterProvider);
+  var regressionFailureConverter = RegressionFailureConverter();
+  regressionFailureConverter.registerConverter(crudFailureConverter.convert);
+  return regressionFailureConverter;
+}

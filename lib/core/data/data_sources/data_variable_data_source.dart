@@ -12,4 +12,6 @@ class DataVariableDataSource extends DatabaseAccessor<RegressionDatabase>
   Future<DataVariable> insert(DataVariable dataVariable) {
     return into(dataVariables).insertReturning(dataVariable.toInsertable());
   }
+
+  Future<List<DataVariable>> findAll() => select(dataVariables).get();
 }

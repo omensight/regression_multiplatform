@@ -5,8 +5,10 @@ import 'package:regression/core/data/entities/regressions.dart';
 
 @UseRowClass(RegressionVariable, generateInsertable: true)
 class RegressionVariables extends Table {
-  TextColumn get fkRegressionId => text().references(Regressions, #id)();
-  TextColumn get fkDataVariableId => text().references(DataVariables, #id)();
+  TextColumn get fkRegressionId =>
+      text().references(Regressions, #id, onDelete: KeyAction.cascade)();
+  TextColumn get fkDataVariableId =>
+      text().references(DataVariables, onDelete: KeyAction.cascade, #id)();
   @override
   Set<Column<Object>>? get primaryKey => {fkRegressionId, fkDataVariableId};
 }

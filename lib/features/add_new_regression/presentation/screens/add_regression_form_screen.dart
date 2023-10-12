@@ -17,8 +17,6 @@ class AddRegressionFormScreen extends ConsumerWidget {
       regressionControllerProvider,
       (previous, next) {},
     );
-    //TODO remove when another
-    ref.read(regressionDatabaseProvider);
     return Scaffold(
       appBar: AppBar(title: Text(LocaleKeys.titleCreateANewRegression.tr())),
       body: SingleChildScrollView(

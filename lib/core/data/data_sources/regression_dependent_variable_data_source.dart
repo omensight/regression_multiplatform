@@ -16,4 +16,9 @@ class RegressionDependentVariableDataSource
     return into(regressionDependentVariables)
         .insertReturning(regressionDependentVariable.toInsertable());
   }
+
+  Future<RegressionDependentVariable> findByRegressionId(String regressionId) =>
+      (select(regressionDependentVariables)
+            ..where((tbl) => tbl.fkRegressionId.equals(regressionId)))
+          .getSingle();
 }

@@ -8,6 +8,7 @@ import 'package:regression/core/domain/failures/crud_failures.dart';
 import 'package:regression/features/add_new_regression/domain/usecases/add_regression_variable_usecase.dart';
 
 import '../../../../core/core_mocks.dart';
+import '../../../../core/core_repository_mock.dart';
 
 void main() {
   setUp(() {
@@ -20,12 +21,12 @@ void main() {
         fkRegressionId: 'fkRegressionId'));
   });
   test('Test the data variable have been created', () async {
-    final dataVariableDataSource = MockDataVariableDataSource();
-    when(() => dataVariableDataSource.insert(any())).thenAnswer((invocation) =>
+    final dataVariableRepository = MockDataVariableRepository();
+    when(() => dataVariableRepository.insert(any())).thenAnswer((invocation) =>
         Future(() => const DataVariable(label: 'label', data: [])));
-    final regressionDependentVariableDataSource =
-        MockRegressionDependentVariableDataSource();
-    when(() => regressionDependentVariableDataSource.insert(any())).thenAnswer(
+    final regressionDependentVariableRepository =
+        MockRegressionDependentVariableRepository();
+    when(() => regressionDependentVariableRepository.insert(any())).thenAnswer(
       (invocation) => Future(
         () => const RegressionDependentVariable(
             fkRegressionId: 'fkRegressionId',
@@ -38,9 +39,9 @@ void main() {
             fkRegressionId: 'fkRegressionId',
             fkDataVariableId: 'fkDataVariableId')));
     final addDependentRegressionVariableUsecase = AddRegressionVariableUsecase(
-      dataVariableDataSource: dataVariableDataSource,
-      regressionDependentVariableDataSource:
-          regressionDependentVariableDataSource,
+      dataVariableRepository: dataVariableRepository,
+      regressionDependentVariableRepository:
+          regressionDependentVariableRepository,
       regressionVariableDataSource: regressionVariableDataSource,
     );
     final result = await addDependentRegressionVariableUsecase(
@@ -51,17 +52,17 @@ void main() {
   });
 
   test('Test the variable have been added as the dependent variable', () async {
-    final dataVariableDataSource = MockDataVariableDataSource();
-    final regressionDependentVariableDataSource =
-        MockRegressionDependentVariableDataSource();
-    when(() => regressionDependentVariableDataSource.insert(any())).thenAnswer(
+    final dataVariableRepository = MockDataVariableRepository();
+    final regressionDependentVariableRepository =
+        MockRegressionDependentVariableRepository();
+    when(() => regressionDependentVariableRepository.insert(any())).thenAnswer(
       (invocation) => Future(
         () => const RegressionDependentVariable(
             fkRegressionId: 'fkRegressionId',
             fkDataVariableId: 'fkDataVariableId'),
       ),
     );
-    when(() => dataVariableDataSource.insert(any())).thenAnswer((invocation) =>
+    when(() => dataVariableRepository.insert(any())).thenAnswer((invocation) =>
         Future(() => const DataVariable(label: 'label', data: [])));
     final regressionVariableDataSource = MockRegressionVariableDataSource();
     when(() => regressionVariableDataSource.insert(any())).thenAnswer(
@@ -69,9 +70,9 @@ void main() {
             fkRegressionId: 'fkRegressionId',
             fkDataVariableId: 'fkDataVariableId')));
     final addDependentRegressionVariableUsecase = AddRegressionVariableUsecase(
-      dataVariableDataSource: dataVariableDataSource,
-      regressionDependentVariableDataSource:
-          regressionDependentVariableDataSource,
+      dataVariableRepository: dataVariableRepository,
+      regressionDependentVariableRepository:
+          regressionDependentVariableRepository,
       regressionVariableDataSource: regressionVariableDataSource,
     );
 
@@ -80,22 +81,22 @@ void main() {
       isDependent: true,
       variableLabel: 'variable_name',
     );
-    verify(() => regressionDependentVariableDataSource.insert(any())).called(1);
+    verify(() => regressionDependentVariableRepository.insert(any())).called(1);
   });
 
   test('Test the regression variable have been inserted into the database',
       () async {
-    final dataVariableDataSource = MockDataVariableDataSource();
-    final regressionDependentVariableDataSource =
-        MockRegressionDependentVariableDataSource();
-    when(() => regressionDependentVariableDataSource.insert(any())).thenAnswer(
+    final dataVariableRepository = MockDataVariableRepository();
+    final regressionDependentVariableRepository =
+        MockRegressionDependentVariableRepository();
+    when(() => regressionDependentVariableRepository.insert(any())).thenAnswer(
       (invocation) => Future(
         () => const RegressionDependentVariable(
             fkRegressionId: 'fkRegressionId',
             fkDataVariableId: 'fkDataVariableId'),
       ),
     );
-    when(() => dataVariableDataSource.insert(any())).thenAnswer((invocation) =>
+    when(() => dataVariableRepository.insert(any())).thenAnswer((invocation) =>
         Future(() => const DataVariable(label: 'label', data: [])));
     final regressionVariableDataSource = MockRegressionVariableDataSource();
     when(() => regressionVariableDataSource.insert(any())).thenAnswer(
@@ -103,9 +104,9 @@ void main() {
             fkRegressionId: 'fkRegressionId',
             fkDataVariableId: 'fkDataVariableId')));
     final addDependentRegressionVariableUsecase = AddRegressionVariableUsecase(
-      dataVariableDataSource: dataVariableDataSource,
-      regressionDependentVariableDataSource:
-          regressionDependentVariableDataSource,
+      dataVariableRepository: dataVariableRepository,
+      regressionDependentVariableRepository:
+          regressionDependentVariableRepository,
       regressionVariableDataSource: regressionVariableDataSource,
     );
 
@@ -118,17 +119,17 @@ void main() {
 
   test('Test the dependent variable is only created if it is request',
       () async {
-    final dataVariableDataSource = MockDataVariableDataSource();
-    final regressionDependentVariableDataSource =
-        MockRegressionDependentVariableDataSource();
-    when(() => regressionDependentVariableDataSource.insert(any())).thenAnswer(
+    final dataVariableRepository = MockDataVariableRepository();
+    final regressionDependentVariableRepository =
+        MockRegressionDependentVariableRepository();
+    when(() => regressionDependentVariableRepository.insert(any())).thenAnswer(
       (invocation) => Future(
         () => const RegressionDependentVariable(
             fkRegressionId: 'fkRegressionId',
             fkDataVariableId: 'fkDataVariableId'),
       ),
     );
-    when(() => dataVariableDataSource.insert(any())).thenAnswer((invocation) =>
+    when(() => dataVariableRepository.insert(any())).thenAnswer((invocation) =>
         Future(() => const DataVariable(label: 'label', data: [])));
     final regressionVariableDataSource = MockRegressionVariableDataSource();
     when(() => regressionVariableDataSource.insert(any())).thenAnswer(
@@ -136,9 +137,9 @@ void main() {
             fkRegressionId: 'fkRegressionId',
             fkDataVariableId: 'fkDataVariableId')));
     final addDependentRegressionVariableUsecase = AddRegressionVariableUsecase(
-      dataVariableDataSource: dataVariableDataSource,
-      regressionDependentVariableDataSource:
-          regressionDependentVariableDataSource,
+      dataVariableRepository: dataVariableRepository,
+      regressionDependentVariableRepository:
+          regressionDependentVariableRepository,
       regressionVariableDataSource: regressionVariableDataSource,
     );
 
@@ -147,6 +148,6 @@ void main() {
       isDependent: false,
       variableLabel: 'variable_name',
     );
-    verifyNever(() => regressionDependentVariableDataSource.insert(any()));
+    verifyNever(() => regressionDependentVariableRepository.insert(any()));
   });
 }

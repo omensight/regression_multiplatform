@@ -5,9 +5,13 @@ import 'package:regression/core/data/entities/regression.dart';
 import 'package:regression/core/domain/failures/crud_failures.dart';
 import 'package:regression/features/add_new_regression/domain/usecases/add_regression_usecase.dart';
 
-import '../../../../core/core_mocks.dart';
+import '../../../../core/core_repository_mock.dart';
 
 void main() {
+  setUpAll(() {
+    registerFallbackValue(RegressionType.linear);
+  });
+
   setUpAll(() {
     registerFallbackValue(Regression(
       name: 'name',
@@ -17,13 +21,13 @@ void main() {
   });
   test('Test create regression returns a failure if there is a duplicated ID',
       () async {
-    final regressionDataSource = MockRegressionsDataSource();
-    when(() => regressionDataSource.findByName(any()))
+    final regressionRepository = MockRegressionRepository();
+    when(() => regressionRepository.findByName(any()))
         .thenAnswer((invocation) => Future(() => null));
-    when(() => regressionDataSource.insert(any()))
+    when(() => regressionRepository.insert(any(), any(), any()))
         .thenThrow(SqliteException(1555, ''));
     final addRegressionUsecase =
-        AddRegressionUsecase(regressionDataSource: regressionDataSource);
+        AddRegressionUsecase(regressionRepository: regressionRepository);
     final result =
         await addRegressionUsecase('regression_name', RegressionType.linear);
     CrudFailure? failure;
@@ -33,7 +37,7 @@ void main() {
 
   test('Test create regression returns a failure if there is a duplicated name',
       () async {
-    final regressionDataSource = MockRegressionsDataSource();
+    final regressionDataSource = MockRegressionRepository();
     final existingRegression = Regression(
       name: 'name',
       creationDateTime: DateTime.now(),
@@ -42,7 +46,7 @@ void main() {
     when(() => regressionDataSource.findByName(any()))
         .thenAnswer((invocation) => Future(() => existingRegression));
     final addRegressionUsecase =
-        AddRegressionUsecase(regressionDataSource: regressionDataSource);
+        AddRegressionUsecase(regressionRepository: regressionDataSource);
     final result =
         await addRegressionUsecase('regression_name', RegressionType.linear);
     CrudFailure? failure;
@@ -51,18 +55,18 @@ void main() {
   });
 
   test('Test create regression returns the created regression', () async {
-    final regressionDataSource = MockRegressionsDataSource();
+    final regressionRepository = MockRegressionRepository();
     final createdRegression = Regression(
       name: 'name',
       creationDateTime: DateTime.now(),
       regressionType: RegressionType.linear,
     );
-    when(() => regressionDataSource.findByName(any()))
+    when(() => regressionRepository.findByName(any()))
         .thenAnswer((invocation) => Future(() => null));
-    when(() => regressionDataSource.insert(any()))
+    when(() => regressionRepository.insert(any(), any(), any()))
         .thenAnswer((invocation) => Future(() => createdRegression));
     final addRegressionUsecase =
-        AddRegressionUsecase(regressionDataSource: regressionDataSource);
+        AddRegressionUsecase(regressionRepository: regressionRepository);
     final result = await addRegressionUsecase('name', RegressionType.linear);
     Regression? insertedRegression;
     result.fold((l) => null, (r) => insertedRegression = r);
