@@ -1,0 +1,20 @@
+on: 
+  push:
+jobs:
+  test-flutter:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - uses: subosito/flutter-action@v2
+        - name: Create secret files
+          run: |
+            echo "${{ secrets.REGRESSIONS_KEYSTORE }}" > regressions_key.jks.asc
+            echo "${{ secrets.REGRESSIONS_KEYSTORE_PROPERTIES }}" > keystore.properties.asc   
+            gpg -d --passphrase "${{ secrets.PASSPHRASE }}" --batch regressions_key.jks.asc > android/regressions_key.jks
+            gpg -d --passphrase "${{ secrets.PASSPHRASE }}" --batch keystore.properties.asc > android/keystore.properties
+        - name: Generate files
+          run: |
+            dart run build_runner build
+            dart run easy_localization:generate -S assets/langs -f keys -o codegen_keys.g.dart
+        - name: Test
+          run: flutter test
