@@ -1,0 +1,2 @@
+This app is able to make this kind of regressions:
+- Linear Regression

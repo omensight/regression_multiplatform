@@ -1,0 +1,59 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Submit a new alpha build"
+  lane :alpha do
+    json_file_path = ENV["JSON_DATA_PATH"] 
+    new_version_code=google_play_track_version_codes(track:"alpha")[0]+1
+    android_set_version_code(
+      gradle_file: "../android/app/build.gradle",
+      version_code: new_version_code
+      )
+    gradle(
+      task: "bundle",
+      build_type: "Release"
+      )
+    last_commit = last_git_commit
+    last_git_hash = last_commit[:abbreviated_commit_hash]
+    release_name = new_version_code + " (" +flutter_version()["version_name"] + ") " + last_git_hash 
+    upload_to_play_store(
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+      version_name: release_name,
+      version_code:new_version_code,
+      track:"alpha"
+    )
+    
+ 
+  end
+
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+    gradle(task: "clean assembleRelease")
+    crashlytics
+  
+    # sh "your_script.sh"
+    # You can also use other beta testing services here
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "clean assembleRelease")
+    upload_to_play_store
+  end
+end

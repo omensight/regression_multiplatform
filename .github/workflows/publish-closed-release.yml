@@ -1,0 +1,37 @@
+on:
+  push:
+    branches: master
+
+jobs:
+  publish-alpha:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: stable
+    - uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+      with:
+        ruby-version: '3.0'
+    - name: Create secret files
+      run: |
+        echo "${{ secrets.REGRESSIONS_KEYSTORE }}" > regressions_key.jks.asc
+        echo "${{ secrets.REGRESSIONS_GOOGLE_SERVICES_CONFIGURATION }}" > regressions-google-config.json.asc
+        echo "${{ secrets.REGRESSIONS_KEYSTORE_PROPERTIES }}" > keystore.properties.asc   
+        gpg -d --passphrase "${{ secrets.PASSPHRASE }}" --batch regressions_key.jks.asc > android/regressions_key.jks
+        gpg -d --passphrase "${{ secrets.PASSPHRASE }}" --batch regressions-google-config.json.asc > android/regressions-google-config.json
+        gpg -d --passphrase "${{ secrets.PASSPHRASE }}" --batch keystore.properties.asc > android/keystore.properties
+    - name: Build Flutter bundle
+      run: |
+        dart run build_runner build
+        dart run easy_localization:generate -S assets/langs -f keys -o codegen_keys.g.dart
+        flutter build appbundle
+    - name: Install ruby dependencies
+      working-directory: ./android
+      run: |
+        gem install fastlane
+        bundle install
+    - name: Publish Android alpha
+      working-directory: ./android
+      run: bundle exec fastlane alpha
+    

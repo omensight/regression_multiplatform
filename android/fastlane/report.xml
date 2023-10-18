@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000460561">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: google_play_track_version_codes" time="2.722893557">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: android_set_version_code" time="0.002545865">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: bundleRelease" time="3.402580792">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>
