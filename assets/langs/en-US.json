@@ -1,34 +1,33 @@
 {
-    "appName":"Regressions",
-    "titleCreateANewRegression":"Create a new regression",
-    "add":"Add",
-    "labelRegressionName":"Regression name",
-    "labelIndependentVariable":"Independent variable label (X by default)",
-    "labelDependentVariable":"Dependent variable label (Y by default)",
-    "regressionTypes":{
-        "linear":"Linear",
-        "power":"Power"
+    "appName": "Regressions",
+    "titleCreateANewRegression": "Create a new regression",
+    "add": "Add",
+    "labelRegressionName": "Regression name",
+    "labelIndependentVariable": "Independent variable label (X by default)",
+    "labelDependentVariable": "Dependent variable label (Y by default)",
+    "regressionTypes": {
+        "linear": "Linear",
+        "power": "Power"
     },
-    "indicatorBasicInformation":"Basic information:",
-    "indicatorVariables":"Variables:",
-    "errorRequiredField":"This field is required",
-    "cancel":"Cancel",
-    "delete":"Delete",
-    "duplicate":"Duplicate",
-    "duplicateRegression":"Duplicate regression",
-    "regressionDuplicateName":"Name of the duplicate",
-    "crudFailures":{
-        "duplicateId":"There is already an entity with this ID",
-        "duplicatedName":"There is already an entity with the name \"{}\"",
-        "read":"Cannot get the entity with the identifier \"{}\" at this moment",
-        "update":"Cannot update this element at this moment",
-        "delete":"Cannot delete this element at this moment"
+    "indicatorBasicInformation": "Basic information:",
+    "indicatorVariables": "Variables:",
+    "errorRequiredField": "This field is required",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "duplicate": "Duplicate",
+    "duplicateRegression": "Duplicate regression",
+    "regressionDuplicateName": "Name of the duplicate",
+    "crudFailures": {
+        "duplicateId": "There is already an entity with this ID",
+        "duplicatedName": "There is already an entity with the name \"{}\"",
+        "read": "Cannot get the entity with the identifier \"{}\" at this moment",
+        "update": "Cannot update this element at this moment",
+        "delete": "Cannot delete this element at this moment",
+        "defaultFailure": "Something went wrong (CF0)"
     },
-    "unspecifiedFailure":"Failure not specified",
-    "dialogDeleteRegressionConfirmation":{
-        "title":"Delete regression?",
-        "body":"Are you sure you want to delete the regression \"{}\"?"
+    "unspecifiedFailure": "Failure not specified",
+    "dialogDeleteRegressionConfirmation": {
+        "title": "Delete regression?",
+        "body": "Are you sure you want to delete the regression \"{}\"?"
     }
-    
-        
 }

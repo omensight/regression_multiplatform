@@ -8,4 +8,9 @@ class DataVariableRepository {
 
   Future<DataVariable> insert(DataVariable dataVariable) =>
       dataVariableDataSource.insert(dataVariable);
+
+  Future<List<DataVariable>> getAllVariablesByRegressionId(
+    String regressionId,
+  ) =>
+      dataVariableDataSource.getAllVariablesByRegressionId(regressionId);
 }

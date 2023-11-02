@@ -48,6 +48,10 @@ class RegressionsListScreen extends ConsumerWidget {
                   return Material(
                     borderRadius: BorderRadius.circular(8.0),
                     child: InkWell(
+                      onTap: () {
+                        DataEditorRoute(regressionId: currentRegression.id)
+                            .push(context);
+                      },
                       borderRadius: BorderRadius.circular(8.0),
                       child: SizedBox(
                         height: 56,

@@ -4,10 +4,11 @@ import 'package:regression/core/domain/failures/regression_failure.dart';
 import 'package:regression/generated/codegen_keys.g.dart';
 
 class RegressionFailureConverter {
-  List<String? Function(RegressionFailure failure)> converters = [];
+  final List<RegressionFailureConverter> converters;
 
-  void registerConverter(
-      String? Function(RegressionFailure failure) newConverter) {
+  RegressionFailureConverter({required this.converters});
+
+  void registerConverter(RegressionFailureConverter newConverter) {
     converters.add(newConverter);
   }
 
@@ -15,7 +16,7 @@ class RegressionFailureConverter {
     String? converterFailure;
     int index = 0;
     while (converterFailure == null && index < converters.length) {
-      converterFailure = converters[index](regressionFailure);
+      converterFailure = converters[index].convert(regressionFailure);
       index++;
     }
     return converterFailure?.tr(args: regressionFailure.arguments) ??
@@ -23,15 +24,20 @@ class RegressionFailureConverter {
   }
 }
 
-class CrudFailureConverter {
-  String? convert(RegressionFailure crudFailure) {
-    return switch (crudFailure) {
+class CrudFailureConverter extends RegressionFailureConverter {
+  CrudFailureConverter({required super.converters});
+
+  @override
+  String convert(RegressionFailure regressionFailure) {
+    return switch (regressionFailure) {
       CreateDuplicatedIdFailure() => LocaleKeys.crudFailures_duplicateId,
       CreateDuplicatedNameFailure() => LocaleKeys.crudFailures_duplicatedName,
       ReadFailure() => LocaleKeys.crudFailures_read,
       UpdateFailure() => LocaleKeys.crudFailures_update,
       DeleteFailure() => LocaleKeys.crudFailures_delete,
-      RegressionFailure() => null,
+      RegressionFailure() => LocaleKeys.crudFailures_defaultFailure,
     };
   }
 }
+
+class EditDataFailureConverter {}
